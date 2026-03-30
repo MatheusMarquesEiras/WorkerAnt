@@ -99,25 +99,6 @@ wheels = [
 ]
 
 [[package]]
-name = "file-upload-server"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "bcrypt" },
-    { name = "flask" },
-    { name = "psycopg2" },
-    { name = "sqlalchemy" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "bcrypt", specifier = ">=5.0.0" },
-    { name = "flask", specifier = ">=3.1.3" },
-    { name = "psycopg2", specifier = ">=2.9.11" },
-    { name = "sqlalchemy", specifier = ">=2.0.48" },
-]
-
-[[package]]
 name = "flask"
 version = "3.1.3"
 source = { registry = "https://pypi.org/simple" }
@@ -337,4 +318,23 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/b5/43/76ded108b296a49f52de6bac5192ca1c4be84e886f9b5c9ba8427d9694fd/werkzeug-3.1.7.tar.gz", hash = "sha256:fb8c01fe6ab13b9b7cdb46892b99b1d66754e1d7ab8e542e865ec13f526b5351", size = 875700, upload-time = "2026-03-24T01:08:07.687Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7f/b2/0bba9bbb4596d2d2f285a16c2ab04118f6b957d8441566e1abb892e6a6b2/werkzeug-3.1.7-py3-none-any.whl", hash = "sha256:4b314d81163a3e1a169b6a0be2a000a0e204e8873c5de6586f453c55688d422f", size = 226295, upload-time = "2026-03-24T01:08:06.133Z" },
+]
+
+[[package]]
+name = "workerant"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "bcrypt" },
+    { name = "flask" },
+    { name = "psycopg2" },
+    { name = "sqlalchemy" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "bcrypt", specifier = ">=5.0.0" },
+    { name = "flask", specifier = ">=3.1.3" },
+    { name = "psycopg2", specifier = ">=2.9.11" },
+    { name = "sqlalchemy", specifier = ">=2.0.48" },
 ]
