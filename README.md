@@ -1,7 +1,7 @@
 # WorkerAnt
 
 <p align="center">
-  <img src="imgs/WorkerAnt.jpg" alt="WorkerAnt Logo" width="400">
+  <img src="imgs/WorkerAnt.jpg" alt="WorkerAnt Logo" width="600">
 </p>
 
 O **WorkerAnt** é um servidor de upload de arquivos construído com Flask e PostgreSQL.
