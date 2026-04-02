@@ -3,6 +3,7 @@ import './App.css';
 import { Dashboard } from './components/Dashboard';
 import { Upload } from './components/Upload';
 import { Files } from './components/Files';
+import { Settings } from './components/Settings';
 
 type Tab = 'dashboard' | 'upload' | 'files' | 'settings';
 
@@ -98,13 +99,7 @@ function App() {
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'upload' && <Upload />}
           {activeTab === 'files' && <Files />}
-          {activeTab === 'settings' && (
-            <div className="flex flex-col items-center justify-center py-20 opacity-50">
-              <span className="material-symbols-outlined text-6xl mb-4">construction</span>
-              <h2 className="text-2xl font-bold">Module Under Maintenance</h2>
-              <p>Industrial synchronization in progress...</p>
-            </div>
-          )}
+          {activeTab === 'settings' && <Settings />}
         </div>
       </main>
     </div>
