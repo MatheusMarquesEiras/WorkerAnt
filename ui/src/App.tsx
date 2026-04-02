@@ -4,18 +4,35 @@ import { Dashboard } from './components/Dashboard';
 import { Upload } from './components/Upload';
 import { Files } from './components/Files';
 import { Settings } from './components/Settings';
+import { Login } from './components/Login';
+import { Register } from './components/Register';
 
-type Tab = 'dashboard' | 'upload' | 'files' | 'settings';
+type Tab = 'dashboard' | 'upload' | 'files' | 'settings' | 'login' | 'register';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<Tab>('dashboard');
+  const [activeTab, setActiveTab] = useState<Tab>('login'); // Começar no login por padrão
+
+  // Função para lidar com o login (leva ao dashboard)
+  const handleAuthSuccess = () => setActiveTab('dashboard');
+  
+  // Função para logout (leva ao login)
+  const handleLogout = () => setActiveTab('login');
+
+  // Se estiver em uma tela de autenticação, não mostrar Sidebar/Header
+  if (activeTab === 'login') {
+    return <Login onLogin={handleAuthSuccess} onNavigateToRegister={() => setActiveTab('register')} />;
+  }
+
+  if (activeTab === 'register') {
+    return <Register onRegister={handleAuthSuccess} onNavigateToLogin={() => setActiveTab('login')} />;
+  }
 
   return (
     <div className="bg-surface text-on-surface min-h-screen">
       {/* SideNavBar (Rail) */}
       <aside className="h-screen w-64 fixed left-0 top-0 border-r-0 bg-stone-100 dark:bg-neutral-900 flex flex-col py-6 z-50">
         <div className="px-6 mb-10">
-          <h1 className="text-xl font-bold tracking-tighter text-stone-900 dark:text-amber-500">Worker Ant</h1>
+          <h1 className="text-xl font-bold tracking-tighter text-stone-900 dark:text-amber-500 uppercase">Worker Ant</h1>
           <p className="text-[10px] uppercase tracking-widest text-secondary font-bold opacity-70">Industrial Node 01</p>
         </div>
         <nav className="flex-1 space-y-1">
@@ -46,7 +63,7 @@ function App() {
         </nav>
         <div className="mt-auto border-t border-stone-200/50 pt-4">
           <NavItem icon="help" label="Help" onClick={() => {}} />
-          <NavItem icon="logout" label="Logout" onClick={() => {}} />
+          <NavItem icon="logout" label="Logout" onClick={handleLogout} />
           <div className="px-4 py-4 flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden">
               <img 
