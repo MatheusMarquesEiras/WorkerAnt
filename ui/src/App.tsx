@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import { Dashboard } from './components/Dashboard';
 import { Upload } from './components/Upload';
+import { Files } from './components/Files';
 
 type Tab = 'dashboard' | 'upload' | 'files' | 'settings';
 
@@ -96,7 +97,8 @@ function App() {
         <div className="p-12 max-w-7xl mx-auto w-full">
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'upload' && <Upload />}
-          {(activeTab === 'files' || activeTab === 'settings') && (
+          {activeTab === 'files' && <Files />}
+          {activeTab === 'settings' && (
             <div className="flex flex-col items-center justify-center py-20 opacity-50">
               <span className="material-symbols-outlined text-6xl mb-4">construction</span>
               <h2 className="text-2xl font-bold">Module Under Maintenance</h2>
