@@ -8,4 +8,11 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  server: {
+    proxy: {
+      '/auth': 'http://localhost:3333',
+      '/services': 'http://localhost:3333',
+      '/users': 'http://localhost:3333',
+    },
+  },
 })

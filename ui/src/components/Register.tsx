@@ -1,9 +1,31 @@
+import { useState } from 'react';
+import { register } from '../api';
+
 interface RegisterProps {
   onRegister: () => void;
   onNavigateToLogin: () => void;
 }
 
 export function Register({ onRegister, onNavigateToLogin }: RegisterProps) {
+  const [nodeId, setNodeId] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await register(nodeId, password);
+      onRegister();
+    } catch (err: any) {
+      setError(err.message ?? 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-surface text-on-background font-body selection:bg-primary-fixed selection:text-on-primary-fixed min-h-screen flex flex-col lg:flex-row relative overflow-hidden">
       {/* Abstract Industrial Background Element */}
@@ -30,12 +52,23 @@ export function Register({ onRegister, onNavigateToLogin }: RegisterProps) {
             </div>
 
             {/* Form Content */}
-            <form className="p-8 space-y-6" onSubmit={(e) => { e.preventDefault(); onRegister(); }}>
+            <form className="p-8 space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputGroup label="Operator Name" placeholder="John Doe" icon="badge" />
-                <InputGroup label="Corporate Email" placeholder="ops@company.corp" icon="alternate_email" type="email" />
-                <InputGroup label="Desired Node ID" placeholder="node-042-west" icon="lan" />
-                <InputGroup label="Access Key" placeholder="••••••••••••" icon="key" type="password" />
+                <InputGroup
+                  label="Desired Node ID"
+                  placeholder="node-042-west"
+                  icon="lan"
+                  value={nodeId}
+                  onChange={setNodeId}
+                />
+                <InputGroup
+                  label="Access Key"
+                  placeholder="••••••••••••"
+                  icon="key"
+                  type="password"
+                  value={password}
+                  onChange={setPassword}
+                />
               </div>
 
               {/* Security Info Box */}
@@ -46,10 +79,18 @@ export function Register({ onRegister, onNavigateToLogin }: RegisterProps) {
                 </p>
               </div>
 
+              {error && (
+                <p className="text-red-500 text-xs font-bold uppercase tracking-wide">{error}</p>
+              )}
+
               {/* Primary Action */}
               <div className="pt-4">
-                <button className="bg-gradient-to-br from-primary to-primary-container w-full py-4 rounded-lg font-headline font-extrabold text-on-primary-fixed uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-95 transition-all duration-200 flex items-center justify-center gap-3" type="submit">
-                  <span>Provision Node</span>
+                <button
+                  className="bg-gradient-to-br from-primary to-primary-container w-full py-4 rounded-lg font-headline font-extrabold text-on-primary-fixed uppercase tracking-[0.2em] shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-95 transition-all duration-200 flex items-center justify-center gap-3 disabled:opacity-60 disabled:pointer-events-none"
+                  type="submit"
+                  disabled={loading}
+                >
+                  <span>{loading ? 'Provisioning...' : 'Provision Node'}</span>
                   <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
                 </button>
               </div>
@@ -58,8 +99,8 @@ export function Register({ onRegister, onNavigateToLogin }: RegisterProps) {
             {/* Footer Action */}
             <div className="bg-surface-container-low px-8 py-5 text-center border-t border-outline-variant/15">
               <p className="text-sm text-secondary">
-                Already have a Node? 
-                <button 
+                Already have a Node?{' '}
+                <button
                   onClick={onNavigateToLogin}
                   className="text-primary font-bold hover:underline ml-1 inline-flex items-center gap-1"
                 >
@@ -86,9 +127,9 @@ export function Register({ onRegister, onNavigateToLogin }: RegisterProps) {
       {/* Side Graphic (Desktop only) */}
       <div className="hidden lg:block fixed right-0 top-0 bottom-0 w-1/4 bg-stone-900 h-full">
         <div className="h-full w-full relative flex items-center justify-center overflow-hidden">
-          <img 
-            className="absolute inset-0 object-cover opacity-20 grayscale hover:grayscale-0 transition-all duration-1000" 
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgE8OU3AQlvZH42TRXrQZdvwvbsRvMnfvT_r_K49qupdq-hpw5O0vqxQB67GxC0sDz2ziiouPxpixe0V9d8gTkLF9E6vycmp5pSicTyr93MAS7aGwM-rNvyf17tUok8wrwVxbJ56OUQ-K2QYMTg0v1yYjyEKAgEyWnQ5eTP8IjIVNCplAue6cOJP3tQVZvgYeEYmeQyHxJH0aTLZos50ySyPnvO6gmvReNMnQuQlBf1u2XlNN5kBfonMGOCMGPLWdj1DbavKhifrLi" 
+          <img
+            className="absolute inset-0 object-cover opacity-20 grayscale hover:grayscale-0 transition-all duration-1000"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgE8OU3AQlvZH42TRXrQZdvwvbsRvMnfvT_r_K49qupdq-hpw5O0vqxQB67GxC0sDz2ziiouPxpixe0V9d8gTkLF9E6vycmp5pSicTyr93MAS7aGwM-rNvyf17tUok8wrwVxbJ56OUQ-K2QYMTg0v1yYjyEKAgEyWnQ5eTP8IjIVNCplAue6cOJP3tQVZvgYeEYmeQyHxJH0aTLZos50ySyPnvO6gmvReNMnQuQlBf1u2XlNN5kBfonMGOCMGPLWdj1DbavKhifrLi"
             alt="Server Room"
           />
           <div className="z-10 p-12 space-y-4">
@@ -105,12 +146,26 @@ export function Register({ onRegister, onNavigateToLogin }: RegisterProps) {
   );
 }
 
-function InputGroup({ label, placeholder, icon, type = "text" }: any) {
+function InputGroup({ label, placeholder, icon, type = 'text', value, onChange }: {
+  label: string;
+  placeholder: string;
+  icon: string;
+  type?: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   return (
     <div className="space-y-2 text-left">
       <label className="block text-xs font-bold uppercase tracking-wider text-stone-500 font-label">{label}</label>
       <div className="relative group">
-        <input className="w-full bg-stone-100 border-none px-4 py-3 text-on-surface placeholder:text-stone-400 focus:ring-0 focus:bg-white border-b-2 border-transparent focus:border-primary transition-all duration-200 outline-none" placeholder={placeholder} type={type} />
+        <input
+          className="w-full bg-stone-100 border-none px-4 py-3 text-on-surface placeholder:text-stone-400 focus:ring-0 focus:bg-white border-b-2 border-transparent focus:border-primary transition-all duration-200 outline-none"
+          placeholder={placeholder}
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          required
+        />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-300">
           <span className="material-symbols-outlined text-lg">{icon}</span>
         </div>
@@ -119,7 +174,7 @@ function InputGroup({ label, placeholder, icon, type = "text" }: any) {
   );
 }
 
-function StatusRow({ label, value, active }: any) {
+function StatusRow({ label, value, active }: { label: string; value: string; active?: boolean }) {
   return (
     <div className="flex items-center justify-between gap-12 border-b border-white/5 pb-2">
       <span className="text-[10px] font-bold text-stone-400 uppercase">{label}</span>
